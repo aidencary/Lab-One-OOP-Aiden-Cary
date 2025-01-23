@@ -14,6 +14,7 @@ public class PursePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Call the superclass method to clear the panel
+        // Create a y variable that increases every time drawString is called
         g.drawString(purse.toString(), 10, 20); // Draw the purse contents as a string starting at (10, 20)
     }
 
