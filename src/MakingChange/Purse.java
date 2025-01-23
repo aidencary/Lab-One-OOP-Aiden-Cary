@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Purse {
     // Uses a hash map to keep track of the number of each denomination in the purse.
-    private final Map<Denomination, Integer> cash = new HashMap<>();
+    public final Map<Denomination, Integer> cash = new HashMap<>();
 
     // Add a specific number of a denomination to the purse
     public void add(Denomination type, int num) {
@@ -36,7 +36,7 @@ public class Purse {
 
     // Provides a string representation of the purse contents
     public String toString() {
-        StringBuilder sb = new StringBuilder("Purse contents:\n"); // May need to change this
+        StringBuilder sb = new StringBuilder();
         for (Map.Entry<Denomination, Integer> entry : cash.entrySet()) {
             sb.append(entry.getKey().name()) // Appends the name of the denomination
                     .append(" x ") // Appends the count prefix

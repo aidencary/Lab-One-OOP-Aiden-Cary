@@ -9,7 +9,7 @@ public class Register {
             new Denomination("Twenty-Dollar Note", 20.0, "bill", "images/twenty.png"),
             new Denomination("Ten-Dollar Note", 10.0, "bill", "images/ten.png"),
             new Denomination("Five-Dollar Note", 5.0, "bill", "images/five.png"),
-            new Denomination("One-Dollar Note", 1.0, "bill", "images/one.png"),
+            new Denomination("One-Dollar Note", 1.0, "bill", "images/dollar.png"),
             new Denomination("Quarter", 0.25, "coin", "images/quarter.png"),
             new Denomination("Dime", 0.10, "coin", "images/dime.png"),
             new Denomination("Nickel", 0.05, "coin", "images/nickel.png"),
