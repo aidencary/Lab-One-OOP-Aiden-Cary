@@ -53,7 +53,7 @@ public class Register {
             Map<Denomination, Integer> orderedContents = purse.getContentsInOrder(US_CURRENCY);
             for (Map.Entry<Denomination, Integer> entry : orderedContents.entrySet()) {
                 // Print the contents of the purse (denomination name and count)
-                System.out.println(entry.getKey().name() + " x " + entry.getValue());
+                System.out.println(entry.getValue() + " " + entry.getKey().name());
             }
         }
         return purse;
