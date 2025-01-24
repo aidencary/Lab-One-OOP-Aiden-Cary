@@ -1,11 +1,10 @@
 package MakingChange;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Purse {
-    // Uses a hash map to keep track of the number of each denomination in the purse.
-    public final Map<Denomination, Integer> cash = new HashMap<>();
+    // Uses a linked hash map to keep track of the number of each denomination in the purse.
+    public final Map<Denomination, Integer> cash = new LinkedHashMap<>();
 
     // Add a specific number of a denomination to the purse
     public void add(Denomination type, int num) {
@@ -21,16 +20,19 @@ public class Purse {
         return toRemove * type.amt(); // Return the total value that is removed
     }
 
-    // Calculate the total value of the purse
+    // Calculate the total value of the purse (sorted by denomination value in descending order)
     public double getValue() {
         double total = 0.0;
-        for (Map.Entry<Denomination, Integer> entry : cash.entrySet()) {
-            Denomination denom = entry.getKey(); // Gets the key for the Denomination
-            int amount = entry.getValue(); // Gets the value
+        List<Map.Entry<Denomination, Integer>> sortedEntries = new ArrayList<>(cash.entrySet());
+        sortedEntries.sort((entry1, entry2) -> Double.compare(entry2.getKey().amt(), entry1.getKey().amt())); // Sort by denomination value in descending order
 
-            // Add to the total
-            total += denom.amt() * amount; // Reps the denom's worth per piece * the number of pieces
+        // Add up the total value based on sorted entries
+        for (Map.Entry<Denomination, Integer> entry : sortedEntries) {
+            Denomination denom = entry.getKey();
+            int amount = entry.getValue();
+            total += denom.amt() * amount;
         }
+
         return total;
     }
 
@@ -45,4 +47,20 @@ public class Purse {
         }
         return sb.toString();
     }
+    // Returns the contents of the purse ordered according to the provided currency order.
+    public Map<Denomination, Integer> getContentsInOrder(Denomination[] currencyOrder) {
+        Map<Denomination, Integer> orderedCash = new LinkedHashMap<>();
+        for (Denomination denom : currencyOrder) {
+            if (cash.containsKey(denom)) {
+                orderedCash.put(denom, cash.get(denom));
+            }
+        }
+        return orderedCash;
+    }
+
+    // If the purse is empty (contains no denoms) then it returns false
+    public boolean isEmpty() {
+        return cash.isEmpty();
+    }
 }
+

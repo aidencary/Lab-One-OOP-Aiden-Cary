@@ -1,5 +1,7 @@
 package MakingChange;
 
+import java.util.Map;
+// Registers handles the logic for making change
 public class Register {
     // Creates an array list of available denominations in descending order of value
     // Idea for this was found on the Java with Baarsch Discord
@@ -15,17 +17,45 @@ public class Register {
             new Denomination("Nickel", 0.05, "coin", "images/nickel.png"),
             new Denomination("Penny", 0.01, "coin", "images/penny.png")
     };
-
-    // Generate the change for the user inputted amount
+/*
+* Calculates the optimal distribution of US currency denominations in order to make change to the user inputted amt
+* Returns a Purse object contain the calculated distributions of denominations
+*/
     public Purse makeChange(double amt) {
+        // Convert the amt value to an integer to avoid "losing" a penny.
+        int amountInCents = (int) Math.round(amt * 100);
         Purse purse = new Purse();
-        for (Denomination denom : US_CURRENCY) { // Iterates thorugh each denomination
-            int count = (int) (amt / denom.amt()); // Calculates how many of the denomination can fit into the amount
+
+        // Uses an advanced for loop to iterate through each denom in descending order of value
+        for (Denomination denom : US_CURRENCY) {
+            // Convert the denom value to cents
+            int denomValueInCents = (int) Math.round(denom.amt() * 100);
+
+            // Determines how many of the denomination can be used
+            int count = amountInCents / denomValueInCents;
+
             if (count > 0) {
+                // Add the denomination and count to the purse
                 purse.add(denom, count);
-                amt -= count * denom.amt();
+                // Subtract the value of the added denoms from the total amount
+                amountInCents -= count * denomValueInCents;
+            }
+            // If no remaining amount is left, break out of the loop early
+            if (amountInCents == 0) {
+                break;
             }
         }
-        return purse; // Returns the purse with the change
+        // Checks if the purse contains any change
+        if (purse.isEmpty()) {
+            System.out.println("Empty purse");
+        } else {
+            // Retrieve the purse contents in the order of the original currency array
+            Map<Denomination, Integer> orderedContents = purse.getContentsInOrder(US_CURRENCY);
+            for (Map.Entry<Denomination, Integer> entry : orderedContents.entrySet()) {
+                // Print the contents of the purse (denomination name and count)
+                System.out.println(entry.getKey().name() + " x " + entry.getValue());
+            }
+        }
+        return purse;
     }
 }

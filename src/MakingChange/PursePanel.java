@@ -9,13 +9,14 @@ public class PursePanel extends JPanel {
 
     public void setPurse(Purse purse) {
         this.purse = purse; // Sets the new purse to be displayed
-        repaint(); // Repaints and updates the display (had to Google this)
+        repaint(); // Repaints and updates the display
     }
-// Will probably change everything below
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Call the superclass method to clear the panel
         int y = 20; // Start y position for drawing text and images
+
 
         for (Map.Entry<Denomination, Integer> entry : purse.cash.entrySet()) {
             Denomination denom = entry.getKey();
@@ -30,14 +31,14 @@ public class PursePanel extends JPanel {
             if (icon.getImage() != null) {
                 for (int i = 0; i < count; i++) {
                     // Draw the image for each instance of the denomination
-                    g.drawImage(icon.getImage(), 150 + (i * 50), y - 20, 50, 50, this);
+                    g.drawImage(icon.getImage(), 160 + (i * 60), y - 30, 60, 60, this);
 
                 }
             } else {
                 g.drawString("[Image not found: " + denom.img() + "]", 150, y); // Indicate missing image
             }
 
-            y += 40; // Move down for the next denomination
+            y += 60; // Move down for the next denomination
         }
     }
 }
