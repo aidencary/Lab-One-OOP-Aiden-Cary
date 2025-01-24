@@ -2,6 +2,7 @@ package MakingChange;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 public class PursePanel extends JPanel {
     private Purse purse = new Purse();
@@ -14,7 +15,29 @@ public class PursePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Call the superclass method to clear the panel
-        g.drawString(purse.toString(), 10, 20); // Draw the purse contents as a string starting at (10, 20)
-    }
+        int y = 20; // Start y position for drawing text and images
 
+        for (Map.Entry<Denomination, Integer> entry : purse.cash.entrySet()) {
+            Denomination denom = entry.getKey();
+            int count = entry.getValue();
+
+            // Draw the denomination name and count
+            g.drawString(denom.name() + " x " + count, 20, y);
+
+            // Load the image
+            ImageIcon icon = new ImageIcon(denom.img());
+
+            if (icon.getImage() != null) {
+                for (int i = 0; i < count; i++) {
+                    // Draw the image for each instance of the denomination
+                    g.drawImage(icon.getImage(), 150 + (i * 50), y - 20, 50, 50, this);
+
+                }
+            } else {
+                g.drawString("[Image not found: " + denom.img() + "]", 150, y); // Indicate missing image
+            }
+
+            y += 40; // Move down for the next denomination
+        }
+    }
 }

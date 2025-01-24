@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*; // For collections like Map and List
 
 public class RegisterPanel extends JPanel {
 private final Register register = new Register();
@@ -28,8 +27,8 @@ public RegisterPanel() {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            double amount = Double.parseDouble(input.getText());
-            Purse change = register.makeChange(amount); // Calculates the change
+            double amount = Double.parseDouble(input.getText()) * 100;
+            Purse change = register.makeChange(amount / 100.0); // Calculates the change
             changePanel.setPurse(change); // Update the change panel with the calculated purse
         } catch (NumberFormatException ex) { // Catches exceptions
             JOptionPane.showMessageDialog(null, "Please enter a number!", "Error", JOptionPane.ERROR_MESSAGE);
