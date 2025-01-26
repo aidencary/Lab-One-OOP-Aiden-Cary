@@ -1,6 +1,8 @@
 package MakingChange;
 
 import java.util.Map;
+import java.util.Scanner;
+
 // Registers handles the logic for making change
 public class Register {
     // Creates an array list of available denominations in descending order of value
@@ -57,5 +59,17 @@ public class Register {
             }
         }
         return purse;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter an amount to make change for: ");
+        double amount = scanner.nextDouble();
+
+        Register register = new Register();
+        register.makeChange(amount);
+
+        scanner.close();
     }
 }

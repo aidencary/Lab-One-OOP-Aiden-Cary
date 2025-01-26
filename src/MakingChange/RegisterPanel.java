@@ -2,51 +2,62 @@ package MakingChange;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Scanner;
-/*
-* RegisterPanel - Calculates and displayed the change for a given monetary input
-* Purse Panel is used to display the calculated change
-* Register is using to perform the change calculation
-*
-*/
-public class RegisterPanel extends JPanel {
-    private final Register register = new Register();
-    private final PursePanel changePanel = new PursePanel();
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.*; // For collections like Map and List
 
+/**
+ * A GUI panel for the Register application that calculates and displays change for a given amount.
+ */
+public class RegisterPanel extends JPanel {
+    private final Register register = new Register(); // The Register instance to handle change calculation
+    private final JTextField input = new JTextField(10); // Input field for entering the amount
+    private final PursePanel changePanel = new PursePanel(); // Panel to display the calculated change
+
+    /**
+     * Constructor to set up the RegisterPanel layout and components.
+     */
     public RegisterPanel() {
+        // Set the main layout of the panel
         setLayout(new BorderLayout());
 
-        // Display the change panel
-        add(changePanel, BorderLayout.CENTER);
+        // Create a sub-panel for user input
+        JPanel inputPanel = new JPanel();
+        inputPanel.add(new JLabel("Enter amount: ")); // Label for the input field
+        inputPanel.add(input); // Add the input field to the panel
+        input.addActionListener(new InputListener()); // Attach action listener to handle input
 
-        // Request input from the console
-        getInputFromConsole();
+        // Add the input panel to the top of the RegisterPanel
+        add(inputPanel, BorderLayout.NORTH);
+
+        // Add the change display panel to the center of the RegisterPanel
+        add(changePanel, BorderLayout.CENTER);
     }
 
-    /*
-    * Requests input from the user in the console
-    * Calculates the change
-    * Updates PursePanel with the result
-    */
-    private void getInputFromConsole() {
-        Scanner scanner = new Scanner(System.in);
+    /**
+     * Inner class to handle input actions from the user.
+     */
+    private class InputListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                // Parse the input text into a double (amount)
+                double amount = Double.parseDouble(input.getText());
 
-        // Ask the user for input
-        System.out.print("Enter the amount of money: ");
+                // Use the Register to calculate the change
+                Purse change = register.makeChange(amount);
 
-        try {
-            double amount = Double.parseDouble(scanner.nextLine()); // Read and parse the amount entered
-            // Check if the amount is valid
-            if (amount <= 0 || amount < 0.01) {
-                System.out.println("Empty purse");
-            } else {
-                Purse change = register.makeChange(amount); // Calculate the change
-                changePanel.setPurse(change); // Update the change panel with the calculated purse
+                // Update the PursePanel to display the calculated change
+                changePanel.setPurse(change);
+            } catch (NumberFormatException ex) {
+                // Show an error dialog if the input is not a valid number
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Please enter a valid number!",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
-        } catch (NumberFormatException ex) {
-            System.out.println("Invalid input. Please enter a valid number.");
         }
     }
 }
-
-
